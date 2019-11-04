@@ -1,0 +1,55 @@
+---
+title: "ddmore.repository, an R package for accessing the DDMoRe repository"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ddmore.repository, an R package for accessing the DDMoRe repository}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+### Listing all models {-}
+We can list the first 10 models using the `getSearchResult` function.
+
+```{r, eval=TRUE, results='hide', message=FALSE, warning=FALSE, echo=FALSE}
+library(ddmore.repository)
+library(dplyr)
+library(magrittr)
+library(purrr)
+```
+
+```{r}
+myModels <- getSearchResult(offset=0)
+as.data.frame(myModels)
+```
+
+To load all models, search without a query.
+```{r}
+allModels <- getSearchResult(all=TRUE) %>% as.data.frame()
+allModels %>% dplyr::filter(format=="Original code") %>% head()
+```
+
+A specific model can be loaded with the `getModel()` function
+
+```{r}
+foo <- getModel(allModels$id[1])
+```
+
+You can download all the files for this model using the `saveFiles()` function.
+
+```{r}
+tmp <- tempdir()
+saveFiles(foo, destination=tmp)
+```
+
+As an example for downloading all files in the DDMoRe repository:
+```{r, eval=FALSE}
+allModels <- getSearchResult(all=TRUE) %>% as.data.frame()
+pb <- dplyr::progress_estimated(n=nrow(allModels))
+allModels$id %>% purrr::map(getModel) %>% purrr::map(function(x) {
+  saveFiles(x, x$identifier)
+  pb$tick()$print()
+  })
+```
+
+### Code appendix
+```{r ref.label=knitr::all_labels(), echo = T, eval = F}
+```

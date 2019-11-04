@@ -1,0 +1,18 @@
+Package: ddmore.repository
+Type: Package
+Title: Access a DDMoRe Repository
+Version: 1.0.0
+Authors@R: c(
+  person("Ruben", "Faelens", role = c("aut", "cre"), email = "ruben.faelens@kuleuven.be", comment=c(ORCID="0000-0002-7234-2443"))
+  )
+Description: Access the DDMoRe through R. Easily download models or model files.
+Depends: R (>= 3.5.0)
+Imports: rjson, httr, dplyr
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Suggests: knitr, rmarkdown, magrittr, purrr
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr
+URL: https://github.com/rfaelens/ddmore.repository
